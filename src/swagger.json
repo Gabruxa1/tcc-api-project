@@ -10,7 +10,7 @@
 	},
 	"servers": [
 		{
-			"url": "http://localhost:433",
+			"url": "tcc-api-project.vercel.app",
 			"description": "API de testes"
 		}
 	],
@@ -464,6 +464,162 @@
 					}
 				}
 			}
+		},
+		"/connect/token": {
+			"post": {
+				"summary": "Obter token de acesso",
+				"description": "Essa rota será responsável por gerar um token de acesso para autenticação.",
+				"tags": [
+					"Autenticação"
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"username": {
+										"type": "string"
+									},
+									"password": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"access_token": {
+											"type": "string"
+										},
+										"token_type": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/login": {
+			"post": {
+				"summary": "Autenticar usuário",
+				"description": "Essa rota será responsável por autenticar um usuário e gerar um token de acesso.",
+				"tags": [
+					"Autenticação"
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"username": {
+										"type": "string"
+									},
+									"password": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"access_token": {
+											"type": "string"
+										},
+										"token_type": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/login/adm": {
+			"post": {
+				"summary": "Autenticar usuário administrador",
+				"description": "Essa rota será responsável por autenticar um usuário administrador e gerar um token de acesso.",
+				"tags": [
+					"Autenticação"
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"username": {
+										"type": "string"
+									},
+									"password": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"access_token": {
+											"type": "string"
+										},
+										"token_type": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
 		}
 	},
 	"components": {
@@ -540,5 +696,19 @@
 				}
 			}
 		}
-	}
+	},
+	"tags": [
+		{
+			"name": "Funcionários",
+			"description": "Operações relacionadas a funcionários"
+		},
+		{
+			"name": "Pontos",
+			"description": "Operações relacionadas a registros de pontos"
+		},
+		{
+			"name": "Autenticação",
+			"description": "Operações relacionadas a autenticação de usuários"
+		}
+	]
 }
