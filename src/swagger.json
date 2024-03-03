@@ -1,0 +1,544 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "API de Manipulação de Funcionários e Registros de Pontos",
+		"description": "Essa API tem como finalidade manipular os dados referentes a funcionários e registros de pontos.",
+		"contact": {
+			"email": "gabriel.harik@gmail.com"
+		},
+		"version": "1.0.0"
+	},
+	"servers": [
+		{
+			"url": "http://localhost:433",
+			"description": "API de testes"
+		}
+	],
+	"paths": {
+		"/funcionarios": {
+			"post": {
+				"summary": "Cadastro de novo funcionário",
+				"description": "Essa rota será responsável por cadastrar um novo funcionário.",
+				"tags": [
+					"Funcionários"
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/employee"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/response_employee"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/response_bad_request"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			},
+			"get": {
+				"summary": "Obter todos os funcionários cadastrados",
+				"description": "Essa rota será responsável por retornar todos os funcionários cadastrados.",
+				"tags": [
+					"Funcionários"
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/employee"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/funcionarios/ativos": {
+			"get": {
+				"summary": "Obter funcionários ativos",
+				"description": "Essa rota será responsável por retornar todos os funcionários ativos.",
+				"tags": [
+					"Funcionários"
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/employee"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/funcionarios/{id}": {
+			"get": {
+				"summary": "Obter funcionário pelo ID",
+				"description": "Essa rota será responsável por retornar um funcionário específico com base no ID.",
+				"tags": [
+					"Funcionários"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "ID do funcionário",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/employee"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			},
+			"delete": {
+				"summary": "Remover funcionário",
+				"description": "Essa rota será responsável por remover um funcionário com base no ID.",
+				"tags": [
+					"Funcionários"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "ID do funcionário",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			},
+			"put": {
+				"summary": "Atualizar funcionário",
+				"description": "Essa rota será responsável por atualizar um funcionário com base no ID.",
+				"tags": [
+					"Funcionários"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "ID do funcionário",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/employee"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/response_employee"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/response_bad_request"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/pontos": {
+			"get": {
+				"summary": "Obter todos os registros de pontos",
+				"description": "Essa rota será responsável por retornar todos os registros de pontos.",
+				"tags": [
+					"Pontos"
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/pontos"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/pontos/{id}": {
+			"get": {
+				"summary": "Obter registros de pontos por ID",
+				"description": "Essa rota será responsável por retornar os registros de pontos de um funcionário com base no ID.",
+				"tags": [
+					"Pontos"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "ID do funcionário",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/pontos"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/response_bad_request"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			},
+			"post": {
+				"summary": "Registrar ponto para um funcionário",
+				"description": "Essa rota será responsável por registrar um ponto para um funcionário específico com base no ID.",
+				"tags": [
+					"Pontos"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "ID do funcionário",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"data": {
+										"type": "string",
+										"format": "date"
+									},
+									"entrada": {
+										"type": "string",
+										"format": "time"
+									},
+									"saida": {
+										"type": "string",
+										"format": "time"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/pontos"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/response_bad_request"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			},
+			"delete": {
+				"summary": "Deletar ponto",
+				"description": "Essa rota será responsável por deletar um registro de ponto de um funcionário com base no ID e na data.",
+				"tags": [
+					"Pontos"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "ID do funcionário",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "data",
+						"in": "path",
+						"description": "Data do registro de ponto",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/pontos"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			},
+			"put": {
+				"summary": "Atualizar registro de ponto",
+				"description": "Essa rota será responsável por atualizar um registro de ponto de um funcionário com base no ID.",
+				"tags": [
+					"Pontos"
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "ID do funcionário",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"data": {
+										"type": "string",
+										"format": "date"
+									},
+									"entrada": {
+										"type": "string",
+										"format": "time"
+									},
+									"saida": {
+										"type": "string",
+										"format": "time"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/pontos"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/response_bad_request"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"employee": {
+				"type": "object",
+				"properties": {
+					"nome": {
+						"type": "string"
+					},
+					"cpf": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string",
+						"format": "email"
+					},
+					"funcao": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"nome",
+					"cpf",
+					"email",
+					"funcao"
+				]
+			},
+			"response_employee": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"response_bad_request": {
+				"type": "object",
+				"properties": {
+					"error": {
+						"type": "string"
+					}
+				}
+			},
+			"pontos": {
+				"type": "object",
+				"properties": {
+					"pessoa": {
+						"type": "string"
+					},
+					"funcao": {
+						"type": "string"
+					},
+					"pontos": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"data": {
+									"type": "string",
+									"format": "date"
+								},
+								"entrada": {
+									"type": "string",
+									"format": "time"
+								},
+								"saida": {
+									"type": "string",
+									"format": "time"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
