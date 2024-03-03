@@ -13,7 +13,7 @@ const tokenGenerate = async (request, response) => {
 		const token = await authModel.generateAuthToken(user);
 		response.status(200).json({ token });
 	} catch (error) {
-		response.status(500).json({ error: 'Erro ao tentar realizar login' });
+		response.status(500).json({ error: 'Erro ao gerar token' });
 	}
 }
 

@@ -18,8 +18,8 @@ const authenticate = async (email, senha) => {
 	};
 }
 
-const generateAuthToken = async (userData) => {
-	const token = await jwt.sign(userData, process.env.JWT_SECRET)
+const generateAuthToken = (userData) => {
+	const token = jwt.sign(userData, process.env.JWT_SECRET)
 	return token;
 }
 
