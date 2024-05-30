@@ -2,7 +2,7 @@ const connection = require('./connection');
 const bcrypt = require('bcrypt');
 
 const getAll = async () => {
-	const query = `SELECT pes.nome AS nome, pes.cpf, pes.telefone, func.email, func.senha, func.funcao, func.admin, func.ativo, func.custo_hora 
+	const query = `SELECT pes.id, pes.nome AS nome, pes.cpf, pes.telefone, func.email, func.senha, func.funcao, func.admin, func.ativo, func.custo_hora 
 					FROM funcionarios func 
 					JOIN pessoas pes ON func.pessoa_id = pes.id;`
 	const funcionarios = await connection.query(query);
@@ -10,7 +10,7 @@ const getAll = async () => {
 };
 
 const getActives = async () => {
-	const query = `SELECT pes.nome AS nome, pes.cpf, pes.telefone, func.email, func.senha, func.funcao, func.admin, func.ativo, func.custo_hora 
+	const query = `SELECT pes.id, pes.nome AS nome, pes.cpf, pes.telefone, func.email, func.senha, func.funcao, func.admin, func.ativo, func.custo_hora 
 					FROM funcionarios func 
 					JOIN pessoas pes ON func.pessoa_id = pes.id 
 					WHERE func.ativo = TRUE;`
@@ -101,7 +101,7 @@ const deleteEmployee = async (id) => {
 
 const getActivesById = async (id) => {
 	const query = `SELECT 
-					pes.id AS id_pessoa,
+					pes.id,
 					pes.nome,
 					pes.cpf,
 					pes.telefone,
