@@ -1,11 +1,11 @@
-const connection = require('./connection');
+const connection = require("./connection");
 
 const getAll = async () => {
 	const query = `SELECT p.nome AS pessoa, f.funcao, rp.data, rp.entrada, rp.saida 
 					FROM pessoas p 
 					JOIN funcionarios f ON p.id = f.pessoa_id 
 					JOIN registros_pontos rp ON p.id = rp.pessoa_id 
-					ORDER BY p.nome, rp.data;`
+					ORDER BY p.nome, rp.data;`;
 	const pontos = await connection.query(query);
 	const pontosAgrupados = {};
 	pontos.rows.forEach((ponto) => {
@@ -37,7 +37,7 @@ const getRegisterById = async (id) => {
 					FROM pessoas p 
 					JOIN funcionarios f ON p.id = f.pessoa_id 
 					JOIN registros_pontos rp ON p.id = rp.pessoa_id 
-					WHERE p.id = $1 ORDER BY rp.data`
+					WHERE p.id = $1 ORDER BY rp.data`;
 	const pontos = await connection.query(query, [id]);
 
 	const pontosAgrupados = {};
@@ -67,19 +67,15 @@ const getRegisterById = async (id) => {
 };
 
 const createRegister = async (id, { data, entrada = null, saida = null }) => {
-	try {
-		const entradaValue = entrada === '' ? null : entrada;
-		const saidaValue = saida === '' ? null : saida;
-		const query = `INSERT INTO registros_pontos (pessoa_id, data, entrada, saida) 
+	const entradaValue = entrada === "" ? null : entrada;
+	const saidaValue = saida === "" ? null : saida;
+	const query = `INSERT INTO registros_pontos (pessoa_id, data, entrada, saida) 
 						VALUES ($1, $2, $3, $4) 
 						RETURNING *`;
 
-		const createdPoint = await connection.query(query, [id, data, entradaValue, saidaValue]);
+	const createdPoint = await connection.query(query, [id, data, entradaValue, saidaValue]);
 
-		return { ...createdPoint.rows[0] };
-	} catch (error) {
-		throw error;
-	}
+	return { ...createdPoint.rows[0] };
 };
 
 
@@ -90,7 +86,7 @@ const updatePoint = async (id, point) => {
 		saida
 	} = point;
 
-	let updateQuery = `UPDATE registros_pontos SET`;
+	let updateQuery = "UPDATE registros_pontos SET";
 	const values = [];
 	let index = 1;
 
@@ -122,7 +118,7 @@ const deletePoint = async (id, data) => {
 	const deletedPoint = await connection.query(deleteQuery, [id, data]);
 	return { ...deletedPoint.rows[0] };
 
-}
+};
 
 module.exports = {
 	getAll,

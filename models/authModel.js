@@ -1,6 +1,6 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const funcionariosModel = require('./funcionariosModel');
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const funcionariosModel = require("./funcionariosModel");
 
 
 const authenticate = async (email, senha) => {
@@ -16,14 +16,14 @@ const authenticate = async (email, senha) => {
 		admin: user.admin,
 		ativo: user.ativo
 	};
-}
+};
 
 const generateAuthToken = (userData) => {
-	const token = jwt.sign(userData, process.env.JWT_SECRET)
+	const token = jwt.sign(userData, process.env.JWT_SECRET);
 	return token;
-}
+};
 
 module.exports = {
 	authenticate,
 	generateAuthToken
-}
+};

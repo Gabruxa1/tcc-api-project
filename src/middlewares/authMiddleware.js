@@ -1,6 +1,6 @@
 // authMiddleware.js
 
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 const handleUnauthorizedRequest = (response, message) => {
 	return response.status(401).json({ error: message });
@@ -8,9 +8,9 @@ const handleUnauthorizedRequest = (response, message) => {
 
 
 const validateToken = async (request, response, next) => {
-	const token = request.header('Authorization');
+	const token = request.header("Authorization");
 	if (!token) {
-		return handleUnauthorizedRequest(response, 'Token de acesso não fornecido');
+		return handleUnauthorizedRequest(response, "Token de acesso não fornecido");
 	}
 
 	try {
@@ -18,29 +18,29 @@ const validateToken = async (request, response, next) => {
 		request.user = decoded;
 		next();
 	} catch (error) {
-		return handleUnauthorizedRequest(response, 'Token de acesso inválido');
+		return handleUnauthorizedRequest(response, "Token de acesso inválido");
 	}
-}
+};
 
 const isAdmin = async (request, response, next) => {
 	const user = request.user;
 	if (!user.admin) {
-		return handleUnauthorizedRequest(response, 'Acesso negado. Acesso permitido somente para administradores');
+		return handleUnauthorizedRequest(response, "Acesso negado. Acesso permitido somente para administradores");
 	}
 	next();
-}
+};
 
 const isActive = async (request, response, next) => {
 	const user = request.user;
 	if (!user.ativo) {
-		return handleUnauthorizedRequest(response, 'Acesso negado. Usuário desativado');
+		return handleUnauthorizedRequest(response, "Acesso negado. Usuário desativado");
 	}
 	next();
-}
+};
 
 
 module.exports = {
 	validateToken,
 	isAdmin,
 	isActive
-}
+};
