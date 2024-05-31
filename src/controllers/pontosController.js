@@ -1,23 +1,23 @@
-const pontosModel = require('../../models/pontosModel');
+const pontosModel = require("../../models/pontosModel");
 
 const getAll = async (_request, response) => {
 	try {
 		const pontos = await pontosModel.getAll();
-		return response.status(200).json(pontos)
+		return response.status(200).json(pontos);
 	} catch (error) {
-		return response.status(500).json({ error: 'Erro ao obter todos os registros de pontos.', details: error.message });
+		return response.status(500).json({ error: "Erro ao obter todos os registros de pontos.", details: error.message });
 	}
-}
+};
 
 const getRegisterById = async (request, response) => {
 	try {
 		const { id } = request.params;
 		const pontos = await pontosModel.getRegisterById(id);
-		return response.status(200).json(pontos)
+		return response.status(200).json(pontos);
 	} catch (error) {
-		return response.status(500).json({ error: 'Erro ao obter registros de pontos.', details: error.message });
+		return response.status(500).json({ error: "Erro ao obter registros de pontos.", details: error.message });
 	}
-}
+};
 
 const createRegister = async (request, response) => {
 	try {
@@ -28,7 +28,7 @@ const createRegister = async (request, response) => {
 
 		return response.status(200).json(result);
 	} catch (error) {
-		return response.status(500).json({ error: 'Erro ao criar registro de ponto.', details: error.message });
+		return response.status(500).json({ error: "Erro ao criar registro de ponto.", details: error.message });
 	}
 };
 
@@ -46,7 +46,7 @@ const updateRegister = async (request, response) => {
 
 		return response.status(200).json(result);
 	} catch (error) {
-		return response.status(500).json({ error: 'Erro ao atualizar registro de ponto.', details: error.message });
+		return response.status(500).json({ error: "Erro ao atualizar registro de ponto.", details: error.message });
 	}
 };
 
@@ -54,11 +54,11 @@ const deletePoint = async (request, response) => {
 	try {
 		const { id, data } = request.params;
 		await pontosModel.deletePoint(id, data);
-		return response.status(200).json({ message: 'Ponto excluído com sucesso.' });
+		return response.status(200).json({ message: "Ponto excluído com sucesso." });
 	} catch (error) {
-		return response.status(500).json({ error: 'Erro ao deletar Ponto.' });
+		return response.status(500).json({ error: "Erro ao deletar Ponto." });
 	}
-}
+};
 
 module.exports = {
 	getAll,
@@ -66,4 +66,4 @@ module.exports = {
 	createRegister,
 	updateRegister,
 	deletePoint
-}
+};

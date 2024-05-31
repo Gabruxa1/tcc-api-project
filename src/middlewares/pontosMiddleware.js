@@ -1,4 +1,4 @@
-const connection = require('../../models/connection');
+const connection = require("../../models/connection");
 
 const handleBadRequest = (response, message) => {
 	return response.status(400).json({ error: message });
@@ -17,13 +17,13 @@ const checkPointRecordByIdAndDate = async (request, response, next) => {
 		const pointRecord = result.rows[0];
 
 		if (pointRecord && pointRecord.entrada && pointRecord.saida) {
-			return handleBadRequest(response, 'Registros de entrada e saída já efetuados. Para alteração, favor contatar o administrador.');
+			return handleBadRequest(response, "Registros de entrada e saída já efetuados. Para alteração, favor contatar o administrador.");
 		}
 
 		next();
 
 	} catch (error) {
-		return response.status(500).json({ error: 'Erro ao verificar usuario e data.', details: error.message });
+		return response.status(500).json({ error: "Erro ao verificar usuario e data.", details: error.message });
 	}
 };
 
@@ -40,24 +40,24 @@ const validateBody = (request, response, next) => {
 		const isValidData = /^\d{4}-\d{2}-\d{2}$/.test(data);
 
 		if (!data) {
-			return handleBadRequest(response, ' Informe uma data para registro de pontos.');
+			return handleBadRequest(response, " Informe uma data para registro de pontos.");
 		}
 
 		if (entrada && !isValidEntrada) {
-			return handleBadRequest(response, 'Formato inválido para a entrada. Utilize HH:MM:SS.');
+			return handleBadRequest(response, "Formato inválido para a entrada. Utilize HH:MM:SS.");
 		}
 
 		if (saida != "" && !isValidSaida) {
-			return handleBadRequest(response, 'Formato inválido para a saída. Utilize HH:MM:SS.');
+			return handleBadRequest(response, "Formato inválido para a saída. Utilize HH:MM:SS.");
 		}
 
 		if (data && !isValidData) {
-			return handleBadRequest(response, 'Formato inválido para a data. Utilize YYYY/MM/DD.');
+			return handleBadRequest(response, "Formato inválido para a data. Utilize YYYY/MM/DD.");
 		}
 
 		next();
 	} catch (error) {
-		return response.status(500).json({ error: 'Erro ao verificar a requisição.', details: error.message });
+		return response.status(500).json({ error: "Erro ao verificar a requisição.", details: error.message });
 	}
 };
 
@@ -72,20 +72,20 @@ const checkId = async (request, response, next) => {
 		if (result.rows.length > 0) {
 			next();
 		} else {
-			return handleBadRequest(response, 'ID não encontrado. O ID informado não existe.');
+			return handleBadRequest(response, "ID não encontrado. O ID informado não existe.");
 		}
 	} catch (error) {
-		return response.status(500).json({ error: 'Erro ao verificar a existência do ID.', details: error.message });
+		return response.status(500).json({ error: "Erro ao verificar a existência do ID.", details: error.message });
 	}
 };
 
 const checkDate = async (request, response, next) => {
 	try {
-		const { data } = request.params
+		const { data } = request.params;
 		const isValidDate = /^\d{4}-\d{2}-\d{2}$/.test(data);
 
 		if (!isValidDate) {
-			return handleBadRequest(response, 'Formato inválido para a data. Utilize YYYY/MM/DD.');
+			return handleBadRequest(response, "Formato inválido para a data. Utilize YYYY/MM/DD.");
 		}
 		const query = `SELECT * 
 						FROM registros_pontos 
@@ -94,12 +94,12 @@ const checkDate = async (request, response, next) => {
 		if (result.rows.length > 0) {
 			next();
 		} else {
-			return handleBadRequest(response, 'Data não encontrada. a Data informada não existe.');
+			return handleBadRequest(response, "Data não encontrada. a Data informada não existe.");
 		}
 	} catch (error) {
-		return response.status(500).json({ error: 'Erro ao verificar formato e existência da data.', details: error.message });
+		return response.status(500).json({ error: "Erro ao verificar formato e existência da data.", details: error.message });
 	}
-}
+};
 
 const validatePointCreate = async (request, response, next) => {
 	try {
@@ -119,7 +119,7 @@ const validatePointCreate = async (request, response, next) => {
 		if (existingRecord) {
 			if (entrada === existingRecord.entrada) {
 				if (existingRecord.saida) {
-					return handleBadRequest(response, 'Registros de entrada e saída já efetuados. Contate o administrador.');
+					return handleBadRequest(response, "Registros de entrada e saída já efetuados. Contate o administrador.");
 				} else if (existingRecord.saida === null && saida) {
 					const query = `UPDATE registros_pontos 
 								SET saida = $1 
@@ -132,15 +132,15 @@ const validatePointCreate = async (request, response, next) => {
 
 				} else {
 
-					return handleBadRequest(response, 'Registro já iniciado, saída deve ser informada para efetuar o registro de saída.');
+					return handleBadRequest(response, "Registro já iniciado, saída deve ser informada para efetuar o registro de saída.");
 				}
 			} else {
 
-				return handleBadRequest(response, 'Hora de entrada diverge da original.');
+				return handleBadRequest(response, "Hora de entrada diverge da original.");
 			}
 		}
 	} catch (error) {
-		return response.status(500).json({ error: 'Erro ao validar registro de pontos.', details: error.message });
+		return response.status(500).json({ error: "Erro ao validar registro de pontos.", details: error.message });
 	}
 };
 
