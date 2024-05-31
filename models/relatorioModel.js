@@ -38,8 +38,10 @@ const getReport = async (id, data_inicio, data_fim) => {
 	const formattedResponse = {
 		nome: report.rows.length > 0 ? report.rows[0].nome : "",
 		pontos,
+		total_horas: totalHoras,
 		custo_hora: custoHora,
 		total
+
 	};
 
 	return formattedResponse;
