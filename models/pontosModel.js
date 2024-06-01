@@ -32,13 +32,23 @@ const getAll = async () => {
 	return respostaFormatada;
 };
 
-const getRegisterById = async (id) => {
-	const query = `SELECT p.nome AS pessoa, f.funcao, rp.data, rp.entrada, rp.saida 
-					FROM pessoas p 
-					JOIN funcionarios f ON p.id = f.pessoa_id 
-					JOIN registros_pontos rp ON p.id = rp.pessoa_id 
-					WHERE p.id = $1 ORDER BY rp.data`;
-	const pontos = await connection.query(query, [id]);
+const getRegisterById = async (id, data) => {
+	let query = `SELECT p.nome AS pessoa, f.funcao, rp.data, rp.entrada, rp.saida 
+				 FROM pessoas p 
+				 JOIN funcionarios f ON p.id = f.pessoa_id 
+				 JOIN registros_pontos rp ON p.id = rp.pessoa_id 
+				 WHERE p.id = $1`;
+
+	const queryParams = [id];
+
+	if (data) {
+		query += " AND rp.data = $2";
+		queryParams.push(data);
+	}
+
+	query += " ORDER BY rp.data";
+
+	const pontos = await connection.query(query, queryParams);
 
 	const pontosAgrupados = {};
 	pontos.rows.forEach((ponto) => {
@@ -65,6 +75,11 @@ const getRegisterById = async (id) => {
 
 	return respostaFormatada;
 };
+
+module.exports = {
+	getRegisterById
+};
+
 
 const createRegister = async (id, { data, entrada = null, saida = null }) => {
 	const entradaValue = entrada === "" ? null : entrada;

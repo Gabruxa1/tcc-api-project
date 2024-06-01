@@ -12,7 +12,8 @@ const getAll = async (_request, response) => {
 const getRegisterById = async (request, response) => {
 	try {
 		const { id } = request.params;
-		const pontos = await pontosModel.getRegisterById(id);
+		const { data } = request.query;
+		const pontos = await pontosModel.getRegisterById(id, data);
 		return response.status(200).json(pontos);
 	} catch (error) {
 		return response.status(500).json({ error: "Erro ao obter registros de pontos.", details: error.message });
