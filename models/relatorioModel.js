@@ -2,21 +2,21 @@ const connection = require("./connection");
 
 const getReport = async (id, data_inicio, data_fim) => {
 	const query = `SELECT 
-					p.nome,
-					f.custo_hora,
-					rp.data,
-					rp.entrada,
-					rp.saida
-				FROM 
-					registros_pontos rp
-				JOIN 
-					pessoas p ON rp.pessoa_id = p.id
-				JOIN 
-					funcionarios f ON p.id = f.pessoa_id
-				WHERE 
-					rp.pessoa_id = $1
-				AND 
-					rp.data BETWEEN $2 AND $3;`;
+                    p.nome,
+                    f.custo_hora,
+                    rp.data,
+                    rp.entrada,
+                    rp.saida
+                FROM 
+                    registros_pontos rp
+                JOIN 
+                    pessoas p ON rp.pessoa_id = p.id
+                JOIN 
+                    funcionarios f ON p.id = f.pessoa_id
+                WHERE 
+                    rp.pessoa_id = $1
+                AND 
+                    rp.data BETWEEN $2 AND $3;`;
 	const report = await connection.query(query, [id, data_inicio, data_fim]);
 
 	let totalHoras = 0;
@@ -29,7 +29,8 @@ const getReport = async (id, data_inicio, data_fim) => {
 		return {
 			data: item.data,
 			entrada: item.entrada,
-			saida: item.saida
+			saida: item.saida,
+			horas_trabalhadas: formatHorasTrabalhadas(horasTrabalhadas) // Formatando as horas trabalhadas
 		};
 	});
 	const custoHora = report.rows.length > 0 ? report.rows[0].custo_hora : 0;
@@ -41,10 +42,22 @@ const getReport = async (id, data_inicio, data_fim) => {
 		total_horas: totalHoras,
 		custo_hora: custoHora,
 		total
-
 	};
 
 	return formattedResponse;
+};
+
+// Função para formatar as horas trabalhadas em formato de horas:minutos:segundos
+const formatHorasTrabalhadas = (horas) => {
+	const horasFormatadas = Math.floor(horas);
+	const minutos = Math.floor((horas - horasFormatadas) * 60);
+	const segundos = Math.floor(((horas - horasFormatadas) * 60 - minutos) * 60);
+	return `${pad(horasFormatadas)}:${pad(minutos)}:${pad(segundos)}`;
+};
+
+// Função para adicionar zeros à esquerda, caso necessário
+const pad = (num) => {
+	return num.toString().padStart(2, "0");
 };
 
 module.exports = {
