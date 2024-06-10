@@ -19,6 +19,10 @@ const getReport = async (id, data_inicio, data_fim) => {
                     rp.data BETWEEN $2 AND $3;`;
 	const report = await connection.query(query, [id, data_inicio, data_fim]);
 
+	if (report.rows.length === 0) {
+		throw new Error("Não existem pontos registrados para o período selecionado, verifique data de inicio e fim");
+	}
+
 	let totalHoras = 0;
 	const pontos = report.rows.map(item => {
 		const entrada = new Date(`1970-01-01T${item.entrada}`);
@@ -47,7 +51,6 @@ const getReport = async (id, data_inicio, data_fim) => {
 	return formattedResponse;
 };
 
-// Função para formatar as horas trabalhadas em formato de horas:minutos:segundos
 const formatHorasTrabalhadas = (horas) => {
 	const horasFormatadas = Math.floor(horas);
 	const minutos = Math.floor((horas - horasFormatadas) * 60);
@@ -55,7 +58,6 @@ const formatHorasTrabalhadas = (horas) => {
 	return `${pad(horasFormatadas)}:${pad(minutos)}:${pad(segundos)}`;
 };
 
-// Função para adicionar zeros à esquerda, caso necessário
 const pad = (num) => {
 	return num.toString().padStart(2, "0");
 };
