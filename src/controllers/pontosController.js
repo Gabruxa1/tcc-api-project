@@ -58,8 +58,9 @@ const updateRegister = async (request, response) => {
 		return response.status(200).json(result); // Retorna o registro atualizado com status 200
 	} catch (error) {
 		// Captura erros e retorna uma mensagem de erro com detalhes
-		return response.status(500).json({ error: "Erro ao atualizar registro de ponto.", details: error.message });
+		return response.status(500).json({ error: "Erro ao obter funcionários ativos.", details: error.message });
 	}
+
 };
 
 // Função para deletar um registro de ponto

@@ -53,10 +53,13 @@ drop table registros_pontos;
 drop table funcionarios;
 drop table pessoas;
 
+select*from pessoas rp;
+select*from funcionarios f;
+select*from registros_pontos rp;
 
 -- Inserir 10 pessoas distintas na tabela pessoas com nomes fictícios
-INSERT INTO pessoas (nome, cpf, telefone)
-VALUES
+insert into pessoas (nome, cpf, telefone)
+values
     ('João Silva', '11111111111', '12345678901'),
     ('Maria Oliveira', '22222222222', '23456789012'),
     ('José Santos', '33333333333', '34567890123'),
@@ -67,17 +70,17 @@ VALUES
     ('Camila Almeida', '88888888888', '89012345678'),
     ('Lucas Costa', '99999999999', '90123456789'),
     ('Isabela Rodrigues', '10101010101', '01234567890');
-
-
-INSERT INTO funcionarios (pessoa_id, email, senha, funcao, admin, ativo, custo_hora)
-VALUES
-    (1, 'email1@example.com', 'senha1', 'Gerente', RANDOM() > 0.5, RANDOM() > 0.5, 20.0),
-    (2, 'email2@example.com', 'senha2', 'Analista', RANDOM() > 0.5, RANDOM() > 0.5, 25.0),
-    (3, 'email3@example.com', 'senha3', 'Desenvolvedor', RANDOM() > 0.5, RANDOM() > 0.5, 22.0),
-    (4, 'email4@example.com', 'senha4', 'Designer', RANDOM() > 0.5, RANDOM() > 0.5, 18.0),
-    (5, 'email5@example.com', 'senha5', 'Analista de Marketing', RANDOM() > 0.5, RANDOM() > 0.5, 30.0),
-    (6, 'email6@example.com', 'senha6', 'Engenheiro de Software', RANDOM() > 0.5, RANDOM() > 0.5, 28.0),
-    (7, 'email7@example.com', 'senha7', 'Analista de RH', RANDOM() > 0.5, RANDOM() > 0.5, 23.0),
-    (8, 'email8@example.com', 'senha8', 'Administrador de Sistemas', RANDOM() > 0.5, RANDOM() > 0.5, 26.0),
-    (9, 'email9@example.com', 'senha9', 'Suporte Técnico', RANDOM() > 0.5, RANDOM() > 0.5, 21.0),
-    (10, 'email10@example.com', 'senha10', 'Coordenador de Projetos', RANDOM() > 0.5, RANDOM() > 0.5, 24.0);
+   
+   
+insert into funcionarios (pessoa_id, email, senha, funcao, admin, ativo, custo_hora)
+values
+    (1, 'email1@example.com', '$2b$10$6nAegm525fqTsrd/CqEeiukHypD8LJAR2RlzXspVfLONtklePxMiO', 'Gerente', true, true, 20.0), --user admin, senha "teste123"
+    (2, 'email2@example.com', '$2b$10$6nAegm525fqTsrd/CqEeiukHypD8LJAR2RlzXspVfLONtklePxMiO', 'Analista', false, true, 25.0), --user normal, senha "teste123"
+    (3, 'email3@example.com', '$2b$10$6nAegm525fqTsrd/CqEeiukHypD8LJAR2RlzXspVfLONtklePxMiO', 'Desenvolvedor', true, false, 22.0),
+    (4, 'email4@example.com', '$2b$10$6nAegm525fqTsrd/CqEeiukHypD8LJAR2RlzXspVfLONtklePxMiO', 'Designer', false, false, 18.0),
+    (5, 'email5@example.com', '$2b$10$6nAegm525fqTsrd/CqEeiukHypD8LJAR2RlzXspVfLONtklePxMiO', 'Analista de Marketing', true, true, 30.0),
+    (6, 'email6@example.com', '$2b$10$6nAegm525fqTsrd/CqEeiukHypD8LJAR2RlzXspVfLONtklePxMiO', 'Engenheiro de Software', false, false, 28.0),
+    (7, 'email7@example.com', '$2b$10$6nAegm525fqTsrd/CqEeiukHypD8LJAR2RlzXspVfLONtklePxMiO', 'Analista de RH', true, true, 23.0),
+    (8, 'email8@example.com', '$2b$10$6nAegm525fqTsrd/CqEeiukHypD8LJAR2RlzXspVfLONtklePxMiO', 'Administrador de Sistemas', false, true, 26.0),
+    (9, 'email9@example.com', '$2b$10$6nAegm525fqTsrd/CqEeiukHypD8LJAR2RlzXspVfLONtklePxMiO', 'Suporte Técnico', false, false, 21.0),
+    (10, 'email10@example.com', '$2b$10$6nAegm525fqTsrd/CqEeiukHypD8LJAR2RlzXspVfLONtklePxMiO', 'Coordenador de Projetos', true, true, 24.0);

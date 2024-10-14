@@ -48,6 +48,7 @@ const getRegisterById = async (id, data) => {
 		JOIN registros_pontos rp ON p.id = rp.pessoa_id
 		WHERE p.id = $1`; // Consulta básica para buscar registros por ID
 
+
 	const queryParams = [id]; // Parametros da consulta
 
 	if (data) {
@@ -129,6 +130,11 @@ const updatePoint = async (id, point) => {
 	values.push(id, data); // Adiciona o ID e a data nos parâmetros
 
 	const updatedPoint = await connection.query(updateQuery, values); // Executa a atualização
+
+	if (updatedPoint.rows.length === 0) {
+		throw new Error("Registro de ponto não encontrado para a data e ID fornecidos."); // Lança erro se não encontrou registro
+	}
+
 	return { ...updatedPoint.rows[0] }; // Retorna o registro atualizado
 };
 

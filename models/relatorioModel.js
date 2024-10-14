@@ -18,14 +18,16 @@ const getReport = async (id, data_inicio, data_fim) => {
                 WHERE 
                     rp.pessoa_id = $1
                 AND 
-                    rp.data BETWEEN $2 AND $3;`;
+                    rp.data BETWEEN $2 AND $3
+				ORDER BY 
+    				rp.data ASC;`;
 
 	// Executa a consulta no banco de dados com os parâmetros fornecidos
 	const report = await connection.query(query, [id, data_inicio, data_fim]);
 
 	// Verifica se não há registros retornados e lança um erro, se necessário
 	if (report.rows.length === 0) {
-		throw new Error("Não existem pontos registrados para o período selecionado, verifique data de inicio e fim");
+		throw new Error("Não existem pontos registrados para período selecionado.");
 	}
 
 	let totalHoras = 0; // Inicializa a variável para armazenar o total de horas trabalhadas
@@ -34,6 +36,13 @@ const getReport = async (id, data_inicio, data_fim) => {
 		// Cria objetos de data a partir das strings de entrada e saída
 		const entrada = new Date(`1970-01-01T${item.entrada}`);
 		const saida = new Date(`1970-01-01T${item.saida}`);
+
+		// Verifica se a entrada é maior que a saída
+		if (entrada > saida) {
+			// Se entrada é maior que saída, consideramos que a entrada é no dia anterior
+			entrada.setDate(entrada.getDate() - 1);
+		}
+
 		// Calcula as horas trabalhadas subtraindo a entrada da saída
 		const horasTrabalhadas = (saida - entrada) / (1000 * 60 * 60); // Conversão de milissegundos para horas
 		totalHoras += horasTrabalhadas; // Acumula as horas trabalhadas

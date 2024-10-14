@@ -12,8 +12,8 @@ const getReport = async (request, response) => {
 		return response.status(200).json(report); // Retorna o relatório obtido com status 200
 	} catch (error) {
 		// Verifica se o erro é relacionado à ausência de pontos registrados
-		if (error.message.includes("Não existem pontos registrados para o período selecionado")) {
-			return response.status(400).json({ error: error.message }); // Retorna um erro 400 se não houver registros
+		if (error.message.includes("Não existem pontos registrados no período selecionado")) {
+			return response.status(400).json({ error: "Não foi possivel efetuar a requisição", details: error.message }); // Retorna um erro 400 se não houver registros
 		} else {
 			// Captura outros erros e retorna uma mensagem de erro com detalhes
 			return response.status(500).json({ error: "Erro ao obter dados do relatório.", details: error.message });

@@ -13,34 +13,18 @@
 					"name": "GET funcionários",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "http://localhost:433/funcionarios/1",
-							"protocol": "http",
+							"raw": "{{local}}/funcionarios/ativos",
 							"host": [
-								"localhost"
+								"{{local}}"
 							],
-							"port": "433",
-							"path": [
-								"funcionarios",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET funcionários ativos",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:433/funcionarios/ativos",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "433",
 							"path": [
 								"funcionarios",
 								"ativos"
@@ -50,13 +34,43 @@
 					"response": []
 				},
 				{
+					"name": "GET funcionários ativos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{local}}/funcionarios/",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"funcionarios",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "POST funcionários",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"nome\": \"juliano\",\r\n  \"cpf\": \"10000022214\",\r\n  \"telefone\": \"987654321\",\r\n  \"email\": \"121@2312.com\",\r\n  \"senha\": \"senhaforte1\",\r\n  \"funcao\": \"Analista\",\r\n  \"admin\": false,\r\n  \"ativo\": true,\r\n  \"custo_hora\": 60.0\r\n}\r\n",
+							"raw": "{\r\n  \"nome\": \"tester\",\r\n  \"cpf\": \"21122233344\",\r\n  \"telefone\": \"987654321\",\r\n  \"email\": \"test@teste.com\",\r\n  \"senha\": \"teste123\",\r\n  \"funcao\": \"Tester\",\r\n  \"admin\": false,\r\n  \"ativo\": true,\r\n  \"custo_hora\": 60.0\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -64,12 +78,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:433/funcionarios",
-							"protocol": "http",
+							"raw": "{{local}}/funcionarios",
 							"host": [
-								"localhost"
+								"{{local}}"
 							],
-							"port": "433",
 							"path": [
 								"funcionarios"
 							]
@@ -81,17 +93,21 @@
 					"name": "DELETE funcionários",
 					"request": {
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "http://localhost:433/funcionarios/9",
-							"protocol": "http",
+							"raw": "{{local}}/funcionarios/2",
 							"host": [
-								"localhost"
+								"{{local}}"
 							],
-							"port": "433",
 							"path": [
 								"funcionarios",
-								"9"
+								"2"
 							]
 						}
 					},
@@ -101,10 +117,16 @@
 					"name": "PUT funcionários",
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"nome\": \"dois\",\r\n  \"cpf\": \"\",\r\n  \"telefone\": \"239984577\",\r\n  \"email\": \"\",\r\n  \"senha\": \"\",\r\n  \"funcao\": \"Mestre\",\r\n  \"admin\": false,\r\n  \"ativo\": false\r\n \r\n}\r\n",
+							"raw": "{\r\n  \"nome\": \"dois\",\r\n  \"cpf\": \"\",\r\n  \"telefone\": \"239984577\",\r\n  \"email\": \"\",\r\n  \"senha\": \"\",\r\n  \"funcao\": \"Mestre\",\r\n  \"admin\": true,\r\n  \"ativo\": true\r\n \r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -112,12 +134,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:433/funcionarios/1",
-							"protocol": "http",
+							"raw": "{{local}}/funcionarios/1",
 							"host": [
-								"localhost"
+								"{{local}}"
 							],
-							"port": "433",
 							"path": [
 								"funcionarios",
 								"1"
@@ -130,17 +150,21 @@
 					"name": "GET funcionário",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "http://localhost:433/funcionarios/2",
-							"protocol": "http",
+							"raw": "{{local}}/funcionarios/1",
 							"host": [
-								"localhost"
+								"{{local}}"
 							],
-							"port": "433",
 							"path": [
 								"funcionarios",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -155,14 +179,18 @@
 					"name": "GET pontos",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "http://localhost:433/pontos",
-							"protocol": "http",
+							"raw": "{{local}}/pontos",
 							"host": [
-								"localhost"
+								"{{local}}"
 							],
-							"port": "433",
 							"path": [
 								"pontos"
 							]
@@ -174,17 +202,21 @@
 					"name": "GET pontos id",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "http://localhost:433/pontos/1",
-							"protocol": "http",
+							"raw": "{{local}}/pontos/14",
 							"host": [
-								"localhost"
+								"{{local}}"
 							],
-							"port": "433",
 							"path": [
 								"pontos",
-								"1"
+								"14"
 							]
 						}
 					},
@@ -194,17 +226,22 @@
 					"name": "DELETE pontos",
 					"request": {
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "http://localhost:433/pontos/",
-							"protocol": "http",
+							"raw": "{{local}}/pontos/1/2024-10-01",
 							"host": [
-								"localhost"
+								"{{local}}"
 							],
-							"port": "433",
 							"path": [
 								"pontos",
-								""
+								"1",
+								"2024-10-01"
 							]
 						}
 					},
@@ -214,10 +251,16 @@
 					"name": "POST pontos",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"data\": \"2022-02-01\",\r\n  \"entrada\": \"15:00:00\",\r\n  \"saida\": \"14:00:00\"\r\n}",
+							"raw": "{\r\n  \"data\": \"2024-10-01\",\r\n  \"entrada\": \"08:00:00\",\r\n  \"saida\": \"17:00:00\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -225,12 +268,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:433/pontos/1",
-							"protocol": "http",
+							"raw": "{{local}}/pontos/1",
 							"host": [
-								"localhost"
+								"{{local}}"
 							],
-							"port": "433",
 							"path": [
 								"pontos",
 								"1"
@@ -243,10 +284,16 @@
 					"name": "PUT pontos",
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"data\": \"2022-02-01\",\r\n  \"entrada\": \"\",\r\n  \"saida\": \"18:00:00\"\r\n}",
+							"raw": "{\r\n  \"data\": \"2021-10-01\",\r\n  \"entrada\": \"09:00:00\",\r\n  \"saida\": \"17:00:00\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -254,15 +301,47 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:433/pontos/1",
-							"protocol": "http",
+							"raw": "{{local}}/pontos/1",
 							"host": [
-								"localhost"
+								"{{local}}"
 							],
-							"port": "433",
 							"path": [
 								"pontos",
 								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET relatório",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{local}}/relatorio/10?data_inicio=2024-10-01&data_fim=2024-10-05",
+							"host": [
+								"{{local}}"
+							],
+							"path": [
+								"relatorio",
+								"10"
+							],
+							"query": [
+								{
+									"key": "data_inicio",
+									"value": "2024-10-01"
+								},
+								{
+									"key": "data_fim",
+									"value": "2024-10-05"
+								}
 							]
 						}
 					},
@@ -273,73 +352,6 @@
 		{
 			"name": "Autenticação",
 			"item": [
-				{
-					"name": "POST Login ADM",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjEyMzRAMTIzMTIuY29tIiwiYWRtaW4iOnRydWUsImF0aXZvIjp0cnVlLCJpYXQiOjE3MDk0MzI4MTF9.6FfvUm1Gq9mECnWjbHC-ghKX03a_rxKhvdsPlNYhY3A",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"1234@12312.com\",\r\n    \"senha\": \"senhaforte\"\r\n}"
-						},
-						"url": {
-							"raw": "http://localhost:433/login/adm",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "433",
-							"path": [
-								"login",
-								"adm"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "POST Login",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjEyMzRAMTIzMTIuY29tIiwiYWRtaW4iOnRydWUsImF0aXZvIjp0cnVlLCJpYXQiOjE3MDk0MzI4MTF9.6FfvUm1Gq9mECnWjbHC-ghKX03a_rxKhvdsPlNYhY3A",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"1234@12312.com\",\r\n    \"senha\": \"senhaforte\"\r\n}"
-						},
-						"url": {
-							"raw": "http://localhost:433/login",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "433",
-							"path": [
-								"login"
-							]
-						}
-					},
-					"response": []
-				},
 				{
 					"name": "POST Obter Token",
 					"request": {
@@ -352,15 +364,13 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"1234@12312.com\",\r\n    \"senha\": \"senhaforte\"\r\n}"
+							"raw": "{\r\n  \"email\": \"email1@example.com\",\r\n  \"senha\": \"teste123\"\r\n}"
 						},
 						"url": {
-							"raw": "http://localhost:433/connect/token",
-							"protocol": "http",
+							"raw": "{{local}}/connect/token",
 							"host": [
-								"localhost"
+								"{{local}}"
 							],
-							"port": "433",
 							"path": [
 								"connect",
 								"token"
@@ -370,6 +380,49 @@
 					"response": []
 				}
 			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "local",
+			"value": "http://localhost:433",
+			"type": "string"
+		},
+		{
+			"key": "dev",
+			"value": "https://tcc-api-project.vercel.app",
+			"type": "string"
+		},
+		{
+			"key": "qa",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RlQHRlc3RlLmNvbSIsImFkbWluIjp0cnVlLCJpYXQiOjE3Mjg4Nzc4NzQsImV4cCI6MTcyODk2NDI3NH0.UorcgsLbcLOEe2e3j4iNA5v_tFfh6vcydrPP8YHnR6g"
 		}
 	]
 }

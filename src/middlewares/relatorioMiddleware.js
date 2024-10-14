@@ -1,6 +1,6 @@
 // Função para enviar uma resposta de erro com status 400
 const handleBadRequest = (response, message) => {
-	return response.status(400).json({ error: message });
+	return response.status(400).json({ error: "Não foi possível efetuar a requisição", details: message });
 };
 
 // Middleware para validar requisições

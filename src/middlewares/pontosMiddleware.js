@@ -2,7 +2,7 @@ const connection = require("../../models/connection"); // Importa a conexão com
 
 // Função para lidar com requisições inválidas
 const handleBadRequest = (response, message) => {
-	return response.status(400).json({ error: message });
+	return response.status(400).json({ error: "Não foi possível efetuar a requisição", details: message });
 };
 
 // Middleware para verificar se já existem registros de ponto para um ID e data específicos

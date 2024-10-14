@@ -1,128 +1,57 @@
 {
 	"openapi": "3.0.0",
 	"info": {
-		"title": "API de Manipulação de Funcionários e Registros de Pontos",
-		"description": "Essa API tem como finalidade manipular os dados referentes a funcionários e registros de pontos.",
-		"contact": {
-			"email": "gabriel.harik@gmail.com"
-		},
+		"title": "API de Funcionários e Pontos",
 		"version": "1.0.0"
 	},
-	"servers": [
-		{
-			"url": "http://localhost:433",
-			"description": "API de testes"
-		}
-	],
 	"paths": {
 		"/connect/token": {
 			"post": {
 				"summary": "Geração de Token",
-				"description": "Gera um token de autenticação para o usuário utilizando email e senha.",
-				"tags": ["Auth"],
+				"description": "Essa rota gera um token JWT para autenticação.",
+				"tags": ["Autenticação"],
 				"requestBody": {
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"type": "object",
-								"properties": {
-									"email": {
-										"type": "string",
-										"format": "email",
-										"description": "Email do usuário",
-										"example": "usuario@example.com"
-									},
-									"senha": {
-										"type": "string",
-										"description": "Senha do usuário",
-										"example": "sua_senha"
-									}
-								},
-								"required": ["email", "senha"]
+								"$ref": "#/components/schemas/login"
 							}
 						}
 					}
 				},
 				"responses": {
 					"200": {
-						"description": "Token gerado com sucesso.",
+						"description": "Token gerado com sucesso",
 						"content": {
 							"application/json": {
 								"schema": {
 									"type": "object",
 									"properties": {
 										"token": {
-											"type": "string",
-											"description": "O token JWT gerado para autenticação do usuário."
+											"type": "string"
 										}
-									},
-									"required": ["token"]
-								}
-							}
-						}
-					},
-					"401": {
-						"description": "Credenciais inválidas."
-					},
-					"403": {
-						"description": "Usuário desativado."
-					},
-					"500": {
-						"description": "Erro ao gerar token."
-					}
-				}
-			}
-		},
-		"/funcionarios": {
-			"post": {
-				"summary": "Cadastro de novo funcionário",
-				"description": "Essa rota será responsável por cadastrar um novo funcionário.",
-				"tags": ["Funcionários"],
-				"security": [
-					{
-						"BearerAuth": []
-					}
-				],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/employee"
-							}
-						}
-					},
-					"required": true
-				},
-				"responses": {
-					"201": {
-						"description": "Funcionário cadastrado com sucesso",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/response_employee"
+									}
 								}
 							}
 						}
 					},
 					"400": {
-						"description": "Bad Request",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/response_bad_request"
-								}
-							}
-						}
+						"description": "Bad Request"
+					},
+					"401": {
+						"description": "Unauthorized"
 					},
 					"500": {
 						"description": "Internal Server Error"
 					}
 				}
-			},
+			}
+		},
+		"/funcionarios": {
 			"get": {
-				"summary": "Obter todos os funcionários cadastrados",
-				"description": "Essa rota será responsável por retornar todos os funcionários cadastrados.",
+				"summary": "Obter todos os funcionários",
+				"description": "Essa rota obtém todos os funcionários cadastrados.",
 				"tags": ["Funcionários"],
 				"security": [
 					{
@@ -136,10 +65,41 @@
 							"application/json": {
 								"type": "array",
 								"items": {
-									"$ref": "#/components/schemas/employee"
+									"$ref": "#/components/schemas/response_employee"
 								}
 							}
 						}
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			},
+			"post": {
+				"summary": "Criar funcionário",
+				"description": "Essa rota cadastra um novo funcionário.",
+				"tags": ["Funcionários"],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/employee"
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "Funcionário cadastrado com sucesso"
+					},
+					"400": {
+						"description": "Bad Request"
 					},
 					"500": {
 						"description": "Internal Server Error"
@@ -150,7 +110,7 @@
 		"/funcionarios/ativos": {
 			"get": {
 				"summary": "Obter funcionários ativos",
-				"description": "Essa rota será responsável por retornar todos os funcionários ativos.",
+				"description": "Essa rota obtém todos os funcionários ativos.",
 				"tags": ["Funcionários"],
 				"security": [
 					{
@@ -164,7 +124,7 @@
 							"application/json": {
 								"type": "array",
 								"items": {
-									"$ref": "#/components/schemas/employee"
+									"$ref": "#/components/schemas/response_employee"
 								}
 							}
 						}
@@ -177,40 +137,8 @@
 		},
 		"/funcionarios/{id}": {
 			"get": {
-				"summary": "Obter funcionário pelo ID",
-				"description": "Essa rota será responsável por retornar um funcionário específico com base no ID.",
-				"tags": ["Funcionários"],
-				"parameters": [
-					{
-						"name": "id",
-						"in": "path",
-						"description": "ID do funcionário",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "OK",
-						"content": {
-							"application/json": {
-								"$ref": "#/components/schemas/employee"
-							}
-						}
-					},
-					"404": {
-						"description": "Funcionário não encontrado"
-					},
-					"500": {
-						"description": "Internal Server Error"
-					}
-				}
-			},
-			"delete": {
-				"summary": "Remover funcionário",
-				"description": "Essa rota será responsável por remover um funcionário com base no ID.",
+				"summary": "Obter funcionário por ID",
+				"description": "Essa rota obtém um funcionário específico pelo ID.",
 				"tags": ["Funcionários"],
 				"parameters": [
 					{
@@ -229,78 +157,98 @@
 					}
 				],
 				"responses": {
-					"204": {
-						"description": "Funcionário removido com sucesso"
-					},
-					"404": {
-						"description": "Funcionário não encontrado"
-					},
-					"500": {
-						"description": "Internal Server Error"
-					}
-				}
-			},
-			"put": {
-				"summary": "Atualizar funcionário",
-				"description": "Essa rota será responsável por atualizar um funcionário com base no ID.",
-				"tags": ["Funcionários"],
-				"parameters": [
-					{
-						"name": "id",
-						"in": "path",
-						"description": "ID do funcionário",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"security": [
-					{
-						"BearerAuth": []
-					}
-				],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/employee"
-							}
-						}
-					},
-					"required": true
-				},
-				"responses": {
 					"200": {
-						"description": "Funcionário atualizado com sucesso",
+						"description": "Funcionário encontrado",
 						"content": {
 							"application/json": {
 								"$ref": "#/components/schemas/response_employee"
 							}
 						}
 					},
-					"400": {
-						"description": "Bad Request",
-						"content": {
-							"application/json": {
-								"$ref": "#/components/schemas/response_bad_request"
+					"404": {
+						"description": "Funcionário não encontrado"
+					}
+				}
+			},
+			"put": {
+				"summary": "Atualizar funcionário",
+				"description": "Essa rota atualiza os dados de um funcionário.",
+				"tags": ["Funcionários"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "ID do funcionário",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/employee"
 							}
 						}
+					}
+				},
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Funcionário atualizado com sucesso"
 					},
 					"404": {
 						"description": "Funcionário não encontrado"
+					}
+				}
+			},
+			"delete": {
+				"summary": "Excluir funcionário",
+				"description": "Essa rota exclui um funcionário específico.",
+				"tags": ["Funcionários"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "ID do funcionário",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Funcionário excluído com sucesso"
 					},
-					"500": {
-						"description": "Internal Server Error"
+					"404": {
+						"description": "Funcionário não encontrado"
 					}
 				}
 			}
 		},
 		"/pontos": {
 			"get": {
-				"summary": "Obter todos os registros de pontos",
-				"description": "Essa rota será responsável por retornar todos os registros de pontos.",
+				"summary": "Obter todos os registros de ponto",
+				"description": "Essa rota retorna todos os registros de ponto cadastrados.",
 				"tags": ["Pontos"],
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				],
 				"responses": {
 					"200": {
 						"description": "OK",
@@ -308,7 +256,7 @@
 							"application/json": {
 								"type": "array",
 								"items": {
-									"$ref": "#/components/schemas/pontos"
+									"$ref": "#/components/schemas/ponto"
 								}
 							}
 						}
@@ -317,53 +265,62 @@
 						"description": "Internal Server Error"
 					}
 				}
-			}
-		},
-		"/pontos/{id}": {
-			"get": {
-				"summary": "Obter registro de ponto pelo ID",
-				"description": "Essa rota será responsável por retornar um registro de ponto específico com base no ID.",
+			},
+			"post": {
+				"summary": "Registrar ponto",
+				"description": "Essa rota registra um novo ponto para um funcionário.",
 				"tags": ["Pontos"],
-				"parameters": [
-					{
-						"name": "id",
-						"in": "path",
-						"description": "ID do registro de ponto",
-						"required": true,
-						"schema": {
-							"type": "string"
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ponto"
+							}
 						}
+					}
+				},
+				"security": [
+					{
+						"BearerAuth": []
 					}
 				],
 				"responses": {
-					"200": {
-						"description": "OK",
-						"content": {
-							"application/json": {
-								"$ref": "#/components/schemas/pontos"
-							}
-						}
+					"201": {
+						"description": "Ponto registrado com sucesso"
 					},
-					"404": {
-						"description": "Registro de ponto não encontrado"
+					"400": {
+						"description": "Bad Request"
 					},
 					"500": {
 						"description": "Internal Server Error"
 					}
 				}
-			},
-			"delete": {
-				"summary": "Remover registro de ponto",
-				"description": "Essa rota será responsável por remover um registro de ponto com base no ID.",
+			}
+		},
+		"/pontos/{id}/{data}": {
+			"get": {
+				"summary": "Obter registro de ponto por ID e data",
+				"description": "Essa rota obtém um registro de ponto específico pelo ID e data.",
 				"tags": ["Pontos"],
 				"parameters": [
 					{
 						"name": "id",
 						"in": "path",
-						"description": "ID do registro de ponto",
+						"description": "ID do funcionário",
 						"required": true,
 						"schema": {
 							"type": "string"
+						}
+					},
+					{
+						"name": "data",
+						"in": "path",
+						"description": "Data do registro de ponto no formato YYYY-MM-DD",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"format": "date"
 						}
 					}
 				],
@@ -373,29 +330,90 @@
 					}
 				],
 				"responses": {
-					"204": {
-						"description": "Registro de ponto removido com sucesso"
+					"200": {
+						"description": "Registro de ponto encontrado",
+						"content": {
+							"application/json": {
+								"$ref": "#/components/schemas/ponto"
+							}
+						}
 					},
 					"404": {
 						"description": "Registro de ponto não encontrado"
-					},
-					"500": {
-						"description": "Internal Server Error"
 					}
 				}
 			},
 			"put": {
 				"summary": "Atualizar registro de ponto",
-				"description": "Essa rota será responsável por atualizar um registro de ponto com base no ID.",
+				"description": "Essa rota atualiza um registro de ponto específico pelo ID e data.",
 				"tags": ["Pontos"],
 				"parameters": [
 					{
 						"name": "id",
 						"in": "path",
-						"description": "ID do registro de ponto",
+						"description": "ID do funcionário",
 						"required": true,
 						"schema": {
 							"type": "string"
+						}
+					},
+					{
+						"name": "data",
+						"in": "path",
+						"description": "Data do registro de ponto no formato YYYY-MM-DD",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ponto"
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Registro de ponto atualizado com sucesso"
+					},
+					"404": {
+						"description": "Registro de ponto não encontrado"
+					}
+				}
+			},
+			"delete": {
+				"summary": "Excluir registro de ponto",
+				"description": "Essa rota exclui um registro de ponto específico pelo ID e data.",
+				"tags": ["Pontos"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "ID do funcionário",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "data",
+						"in": "path",
+						"description": "Data do registro de ponto no formato YYYY-MM-DD",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"format": "date"
 						}
 					}
 				],
@@ -404,30 +422,76 @@
 						"BearerAuth": []
 					}
 				],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/pontos"
-							}
-						}
-					},
-					"required": true
-				},
 				"responses": {
 					"200": {
-						"description": "Registro de ponto atualizado com sucesso",
+						"description": "Registro de ponto excluído com sucesso"
+					},
+					"404": {
+						"description": "Registro de ponto não encontrado"
+					}
+				}
+			}
+		},
+		"/relatorios/{id}/{data}": {
+			"get": {
+				"summary": "Gerar relatório",
+				"description": "Essa rota gera um relatório com base nos registros de ponto.",
+				"tags": ["Relatórios"],
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "query",
+						"description": "ID do funcionário",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "data_inicio",
+						"in": "query",
+						"description": "Data de início no formato YYYY-MM-DD",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					},
+					{
+						"name": "data_fim",
+						"in": "query",
+						"description": "Data de fim no formato YYYY-MM-DD",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"format": "date"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Relatório gerado com sucesso",
 						"content": {
 							"application/json": {
-								"$ref": "#/components/schemas/pontos"
+								"type": "object",
+								"properties": {
+									"relatorio": {
+										"type": "array",
+										"items": {
+											"$ref": "#/components/schemas/relatorio"
+										}
+									}
+								}
 							}
 						}
 					},
 					"400": {
 						"description": "Bad Request"
-					},
-					"404": {
-						"description": "Registro de ponto não encontrado"
 					},
 					"500": {
 						"description": "Internal Server Error"
@@ -437,105 +501,123 @@
 		}
 	},
 	"components": {
-		"securitySchemes": {
-			"BearerAuth": {
-				"type": "http",
-				"scheme": "bearer",
-				"bearerFormat": "JWT"
-			}
-		},
 		"schemas": {
+			"login": {
+				"type": "object",
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"senha": {
+						"type": "string"
+					}
+				},
+				"required": ["email", "senha"]
+			},
 			"employee": {
 				"type": "object",
 				"properties": {
 					"nome": {
-						"type": "string",
-						"example": "João Silva"
+						"type": "string"
+					},
+					"cpf": {
+						"type": "string"
+					},
+					"telefone": {
+						"type": "string"
 					},
 					"email": {
-						"type": "string",
-						"format": "email",
-						"example": "joao.silva@example.com"
+						"type": "string"
 					},
 					"senha": {
-						"type": "string",
-						"example": "sua_senha"
+						"type": "string"
+					},
+					"funcao": {
+						"type": "string"
 					},
 					"admin": {
-						"type": "boolean",
-						"example": true
+						"type": "boolean"
 					},
 					"ativo": {
-						"type": "boolean",
-						"example": true
+						"type": "boolean"
+					},
+					"custo_hora": {
+						"type": "number"
 					}
 				},
-				"required": ["nome", "email", "senha", "admin", "ativo"]
+				"required": ["nome", "cpf", "telefone", "email", "senha", "funcao", "admin", "ativo", "custo_hora"]
 			},
 			"response_employee": {
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "string",
-						"example": "123456"
+						"type": "string"
 					},
 					"nome": {
-						"type": "string",
-						"example": "João Silva"
+						"type": "string"
+					},
+					"cpf": {
+						"type": "string"
+					},
+					"telefone": {
+						"type": "string"
 					},
 					"email": {
-						"type": "string",
-						"format": "email",
-						"example": "joao.silva@example.com"
+						"type": "string"
+					},
+					"funcao": {
+						"type": "string"
 					},
 					"admin": {
-						"type": "boolean",
-						"example": true
+						"type": "boolean"
 					},
 					"ativo": {
-						"type": "boolean",
-						"example": true
-					}
-				},
-				"required": ["id", "nome", "email", "admin", "ativo"]
-			},
-			"response_bad_request": {
-				"type": "object",
-				"properties": {
-					"message": {
-						"type": "string",
-						"example": "Erro ao cadastrar funcionário"
+						"type": "boolean"
+					},
+					"custo_hora": {
+						"type": "number"
 					}
 				}
 			},
-			"pontos": {
+			"ponto": {
 				"type": "object",
 				"properties": {
 					"id": {
-						"type": "string",
-						"example": "123456"
+						"type": "string"
 					},
 					"data": {
 						"type": "string",
-						"format": "date-time",
-						"example": "2024-10-13T12:00:00Z"
+						"format": "date"
 					},
-					"hora_entrada": {
+					"entrada": {
 						"type": "string",
-						"format": "date-time",
-						"example": "2024-10-13T08:00:00Z"
+						"format": "date-time"
 					},
-					"hora_saida": {
+					"saida": {
 						"type": "string",
-						"format": "date-time",
-						"example": "2024-10-13T17:00:00Z"
-					},
-					"funcionario_id": {
-						"type": "string",
-						"example": "123456"
+						"format": "date-time"
 					}
 				},
-				"required": ["id", "data", "hora_entrada", "hora_saida", "funcionario_id"]
+				"required": ["data", "entrada", "saida"]
+			},
+			"relatorio": {
+				"type": "object",
+				"properties": {
+					"data": {
+						"type": "string",
+						"format": "date"
+					},
+					"horas_trabalhadas": {
+						"type": "number"
+					}
+				}
+			}
+		},
+		"securitySchemes": {
+			"BearerAuth": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
 			}
 		}
 	}

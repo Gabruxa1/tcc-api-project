@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt"); // Importa a biblioteca bcrypt para hashing de
 
 // Função para lidar com respostas não autorizadas
 const handleUnauthorizedRequest = (response, message) => {
-	return response.status(401).json({ error: message });
+	return response.status(400).json({ error: "Não foi possível efetuar a requisição", details: message });
 };
 
 // Função para lidar com requisições inválidas

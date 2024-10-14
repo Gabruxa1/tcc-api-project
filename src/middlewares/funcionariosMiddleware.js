@@ -2,7 +2,7 @@ const connection = require("../../models/connection"); // Importa o modelo de co
 
 // Função para lidar com requisições inválidas
 const handleBadRequest = (response, message) => {
-	return response.status(400).json({ error: message });
+	return response.status(400).json({ error: "Não foi possível efetuar a requisição", details: message });
 };
 
 // Verifica se o email já está em uso e se o usuário está ativo
